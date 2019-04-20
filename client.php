@@ -11,5 +11,18 @@ $client_builder->setHosts(['host' => 'localhost', 'port' => '9200']);
 
 $client = $client_builder->build();
 
-print_r($client->cat()->health());
+$param = [
+    'index' => 'test',
+    'body' => [
+        "query" =>
+            [
+                'query_string' => [
+                    'fields' => ['field1'],
+                    'query' => 'AlreadyExpiredException NOT'
+                ]
+            ]
+    ]
+];
+$result = $client->search($param);
+print_r($result);
 
